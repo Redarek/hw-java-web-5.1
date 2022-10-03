@@ -26,12 +26,6 @@ class DeliveryTest {
         return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    public void clearDateInput() {
-        for (int i = 0; i < 8; i++) {
-            $("[data-test-id='date'] input").sendKeys(Keys.BACK_SPACE);
-        }
-    }
-
     String planningDate = generateDate(4);
 
     @BeforeEach
@@ -49,7 +43,7 @@ class DeliveryTest {
         var secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
         
         $("[data-test-id=city] input").setValue(validUser.getCity());
-        clearDateInput();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id=\"date\"] input").setValue(firstMeetingDate);
         $("[data-test-id=\"name\"] input").setValue(validUser.getName());
         $("[data-test-id=\"phone\"] input").setValue(validUser.getPhone());
@@ -59,7 +53,7 @@ class DeliveryTest {
         $(".notification__content")
                 .shouldHave(Condition.text("Встреча успешно запланирована на " + firstMeetingDate), Duration.ofSeconds(3))
                 .shouldBe(visible);
-        clearDateInput();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id=\"date\"] input").setValue(secondMeetingDate);
         $x("//span[@class=\"button__text\"]").click();
         $x("//*[contains(text(), \"Необходимо подтверждение\")]").should(visible, Duration.ofSeconds(3));
@@ -74,7 +68,7 @@ class DeliveryTest {
     @Test
     void testFormWithoutCheckbox() {
         $("[data-test-id='city'] input").setValue("Челябинск");
-        clearDateInput();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(planningDate);
         $("[data-test-id='name'] input").setValue("Тиньков Олег");
         $("[data-test-id='phone'] input").setValue("+79997770011");
@@ -85,7 +79,7 @@ class DeliveryTest {
     @Test
     void nameTest() {
         $("[data-test-id='city'] input").setValue("Челябинск");
-        clearDateInput();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(planningDate);
         $("[data-test-id='name'] input").setValue("Tinkov-Tinkoff Oleg");
         $("[data-test-id='phone'] input").setValue("+79997770011");
@@ -97,7 +91,7 @@ class DeliveryTest {
     @Test
     void cityTest() {
         $("[data-test-id='city'] input").setValue("Токио");
-        clearDateInput();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(planningDate);
         $("[data-test-id='name'] input").setValue("Тиньков Олег");
         $("[data-test-id='phone'] input").setValue("+79997770011");
@@ -110,7 +104,7 @@ class DeliveryTest {
     void dateTest() {
         planningDate = generateDate(1);
         $("[data-test-id='city'] input").setValue("Челябинск");
-        clearDateInput();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(planningDate);
         $("[data-test-id='name'] input").setValue("Тиньков Олег");
         $("[data-test-id='phone'] input").setValue("+79997770011");
@@ -122,7 +116,7 @@ class DeliveryTest {
     @Test
     void phoneTest() {
         $("[data-test-id='city'] input").setValue("Челябинск");
-        clearDateInput();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(planningDate);
         $("[data-test-id='name'] input").setValue("Тиньков Олег");
         $("[data-test-id='phone'] input").setValue("89997770011");
